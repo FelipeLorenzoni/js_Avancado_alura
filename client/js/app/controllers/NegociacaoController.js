@@ -23,12 +23,6 @@ class NegociacaoController {
         
     }
 
-    apaga(){
-        
-        this._listaNegociacoes.esvazia();
-        this._mensagem.texto = 'Negociaçoes apagadas com sucesso!';
-        
-    }
     adiciona(event){
         
         event.preventDefault();
@@ -37,6 +31,25 @@ class NegociacaoController {
         this._limpaFormulario();
         
     }
+    importaNegociacoes(){
+        let service = new NegociacaoService();
+
+        service.obterNegociacoesDaSemana((erro,negociacao) => {
+            if(erro){
+                this._mensagem.texto = erro;
+                return;
+            }
+            negociacao.forEach(negociacao =>  this._listaNegociacoes.adiciona(negociacao));
+            this._mensagem.texto = "Negociacoes importadas com sucesso!"
+        });
+    }
+    apaga(){
+        
+        this._listaNegociacoes.esvazia();
+        this._mensagem.texto = 'Negociaçoes apagadas com sucesso!';
+        
+    }
+    
     _criaNegociacao(){
         return new Negociacao(
             DateHelper.textoParaData(this._inputData.value),
