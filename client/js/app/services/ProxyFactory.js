@@ -24,7 +24,6 @@ class ProxyFactory {
                 if(props.includes(prop)){
                     acao(target);
                 }
-
                 return retorno;
             }
         })
