@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+    
+    <script src="../exercicios/funcionario.js"></script>
+    <script>
+
+    // let funcionarioProxy = new Proxy(new Funcionario,{
+
+    //     get(target,prop,receiver){
+    //         console.log("armadilha aqui!");
+    //         return Reflect.get(target,prop,receiver);
+    //     }
+    // });
+    // 
+    // let funcionario = {email: 'abc@abc.com'};
+
+    // let funcionarioProxy = new Proxy(funcionario,{
+
+    //     set(target,prop,value,receiver){
+    //         console.log(`antes: ${target[prop]}, valor atual${value}`);
+    //         return  Reflect.set(target,prop,value,receiver);   
+    //     }
+    // });
+
+    let funcionarioProxy = new Proxy(new Funcionario("email@com.br"),{
+
+        set(target, prop, value, receiver){
+            console.log(prop);
+            console.log(`antes ${target[prop]}, dps ${value}`);
+            return Reflect.set(target,prop,value,receiver);   
+        }
+    });
+
+    </script>
+</body>
+</html>
