@@ -1,27 +1,34 @@
-class NegociacaoDao {
+import {Negociacao} from '../models/Negociacao';
 
-    constructor(connection){
+export class NegociacaoDao {
+
+    constructor(connection) {
+
         this._connection = connection;
         this._store = 'negociacoes';
     }
 
-    adiciona(negociacao){
+    adiciona(negociacao) {
 
-        return new Promise((resolve, reject) => { 
+        return new Promise((resolve, reject) => {
             
             let request = this._connection
-            .transaction(this._store, 'readwrite')
-            .objectStore(this._store)
-            .add(negociacao);
+                .transaction([this._store], 'readwrite')
+                .objectStore(this._store)
+                .add(negociacao);
 
             request.onsuccess = e => {
+
                 resolve();
-            }
+            };
 
             request.onerror = e => {
+
                 console.log(e.target.error);
-                reject('Não foi possível adicionar a negociacão!');
-            }
+                reject('Não foi possível adicionar a negociação');
+
+            };
+
         });
     }
 
@@ -64,25 +71,23 @@ class NegociacaoDao {
         });
     }
 
-    apagaTodos(){
-      
+    apagaTodos() {
+
         return new Promise((resolve, reject) => {
 
             let request = this._connection
-            .transaction([this._store], 'readwrite')
-            .objectStore(this._store)
-            .clear();
+                .transaction([this._store], 'readwrite')
+                .objectStore(this._store)
+                .clear();
 
-            request.onsuccess = e => {
-                resolve('Negociacoes apagadas com sucesso!');
-            }
+            request.onsuccess = e => resolve('Negociações apagadas com sucesso');
 
             request.onerror = e => {
                 console.log(e.target.error);
-                reject('Não foi possível apagar as negociações!');
-            }
+                reject('Não foi possível apagar as negociações');
+            }; 
 
-            
-        })
+        });
+
     }
 }
